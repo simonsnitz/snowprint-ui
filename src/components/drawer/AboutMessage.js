@@ -1,10 +1,19 @@
-import { Typography, Box } from "@mui/material";
+import { FirstPage } from "@mui/icons-material";
+import { Typography, Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
 
-export default function AboutMessage() {
+export default function AboutMessage({setOpenMobileDrawer}) {
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+
     return (
         <Box sx={{maxWidth: '100%'}}>
+            <Box sx={{display: isSmallScreen ? 'flex' : 'none', width: '100%', justifyContent: 'flex-end'}}>
+                <IconButton onClick={() => setOpenMobileDrawer(false)}>
+                    <FirstPage fontSize="large"/>
+                </IconButton>
+            </Box>
             <Typography sx={{
-                paddingTop: '96px',
+                paddingTop: isSmallScreen ? '12px' : '96px',
                 marginBottom: '16px'
             }}>
                 {'Prokaryotic transcription factors can be repurposed as chemical measurement tools for synthetic biology.'}

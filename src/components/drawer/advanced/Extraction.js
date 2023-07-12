@@ -1,7 +1,7 @@
 import NumberButton from "components/custom/NumberButton";
 import { Box, Checkbox, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
-export default function Promoter() {
+export default function Extraction() {
     return (
         <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Typography sx={{width: '100%'}}>{'Promoter Extraction'}</Typography>

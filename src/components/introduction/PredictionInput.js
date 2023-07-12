@@ -1,8 +1,9 @@
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, IconButton, Button, Drawer, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import InputRadio from "./InputRadio";
 import SidePanel from "../drawer";
+import { FirstPage } from "@mui/icons-material";
 
-export default function PredictionInput() {
+export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
     return (
@@ -19,6 +20,7 @@ export default function PredictionInput() {
                 height: '100%',
                 overflowY: 'auto',
                 // Create a Mac-OS like scrollbar
+                // TODO - this stopped working
                 '&::-webkit-scrollbar': {
                     backgroundColor: '#fff',
                     width: '16px'
@@ -55,6 +57,9 @@ export default function PredictionInput() {
                     Submit
                 </Button>
             </Box>
+            <Drawer anchor="left" open={openMobileDrawer} onClose={() => setOpenMobileDrawer(!openMobileDrawer)}>
+                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer}/>
+            </Drawer>
         </Box>
     )
 }

@@ -8,7 +8,7 @@ export default function Blast() {
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
                 <NumberButton label="Identity cutoff" sx={{width: '50%', paddingX: '4px', marginY: '12px'}}/>
                 <NumberButton label="Coverage cutoff" sx={{width: '50%', paddingX: '4px', marginY: '12px'}}/>
-                <NumberButton label="Max homologs" sx={{width: '50%', paddingX: '4px', marginY: '12pxx   '}}/>
+                <NumberButton label="Max homologs" sx={{width: '50%', paddingX: '4px', marginY: '12px'}}/>
                 <Box sx={{display: 'flex', flexDirection: 'column', width: '50%', alignItems: 'center', justifyContent: 'center'}}>
                     <Typography sx={{fontSize: '14px'}}>Filter redundant?</Typography>
                     <Checkbox />
