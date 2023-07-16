@@ -3,6 +3,8 @@ import { Box, CssBaseline, IconButton, useTheme, useMediaQuery } from '@mui/mate
 import './App.css';
 import PredictionInput from './components/introduction/PredictionInput';
 import MenuIcon from '@mui/icons-material/Menu';
+import DataDisplay from 'components/dataDisplay';
+import DataTables from 'components/dataDisplay/dataTables';
 
 function App() {
   const theme = useTheme();
@@ -19,7 +21,8 @@ function App() {
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      overflowY: 'auto'
     }}>
       <Box sx={{
         display: isSmallScreen ? 'flex' : 'none',
