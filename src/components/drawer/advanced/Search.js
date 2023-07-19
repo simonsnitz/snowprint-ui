@@ -22,10 +22,10 @@ export default function Search() {
             </Box>
             <PenaltyInput />
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-                <NumberButton label="Match score" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
-                <NumberButton label="Mismatch score" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
-                <NumberButton label="Min operator length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
-                <NumberButton label="Max operator length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
+                <NumberButton label="Match score" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} min={0} max={10} starter={2}/>
+                <NumberButton label="Mismatch score" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} min={-10} max={0} starter={-2} />
+                <NumberButton label="Min operator length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} min={3} max={10} starter={5}/>
+                <NumberButton label="Max operator length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} min={11} max={40} starter={15}/>
             </Box>
         </Box>
     )

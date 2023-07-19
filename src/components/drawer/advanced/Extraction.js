@@ -7,8 +7,8 @@ export default function Extraction() {
             <Typography sx={{width: '100%'}}>{'Promoter Extraction'}</Typography>
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
                 {/* TODO - previous label included "promoter" but doesn't fit on responsive */}
-                <NumberButton label="Min length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
-                <NumberButton label="Max length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
+                <NumberButton label="Min length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} min={1} max={500} starter={80}/>
+                <NumberButton label="Max length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} min={20} max={9000} starter={800}/>
                 <FormControl>
                     <FormLabel id="demo-radio-buttons-group-label">{'How should genome coordinates be fetched?'}</FormLabel>
                     <RadioGroup
