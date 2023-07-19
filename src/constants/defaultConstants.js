@@ -21,3 +21,24 @@ export const defaultPenaltyState = {
     '19': -12,
     '20': -12
 }
+
+export const defaultReducerState = {
+    identity: 40,
+    coverage: 90,
+    homologs: 30,
+    filter: false,
+    minLength: 80,
+    maxLength: 800,
+    genomeChoice: 'batch',
+    conversation: 'align',
+    match: 2,
+    misMatch: -2,
+    minOperator: 5,
+    maxOperator: 15,
+    penalty: defaultPenaltyState,
+    extension: 5,
+    gapOpen: -100,
+    gapExtend: 0,
+    alignMatch: 2,
+    alignMismatch: -0.5
+}

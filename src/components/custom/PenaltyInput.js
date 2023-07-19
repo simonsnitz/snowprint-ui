@@ -1,8 +1,7 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Slider, Typography } from "@mui/material";
-import { useState } from "react";   
-
 import { defaultPenaltyState } from "constants/defaultConstants";
+import { useState } from "react";   
 
 export default function PenaltyInput() {
 
