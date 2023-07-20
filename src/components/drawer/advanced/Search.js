@@ -22,8 +22,8 @@ export default function Search({dispatch}) {
             </Box>
             <PenaltyInput callBack={dispatch} field={'penalty'} />
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-                <NumberButton label="Match score" callBack={dispatch} field={'match'} min={0} max={10} starter={2}/>
-                <NumberButton label="Mismatch score" callBack={dispatch} field={'misMatch'} min={-10} max={0} starter={-2} />
+                <NumberButton label="Match score" callBack={dispatch} field={'match'} min={0} max={10} starter={2} decimalSupport/>
+                <NumberButton label="Mismatch score" callBack={dispatch} field={'misMatch'} min={-10} max={0} starter={-2} decimalSupport/>
                 <NumberButton label="Min operator length" callBack={dispatch} field={'minOperator'} min={3} max={10} starter={5}/>
                 <NumberButton label="Max operator length" callBack={dispatch} field={'maxOperator'} min={11} max={40} starter={15}/>
             </Box>
