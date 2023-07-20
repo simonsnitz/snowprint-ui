@@ -19,7 +19,7 @@ export default function AdvancedOptions() {
         }
     }
 
-    const [state, dispatch] = useReducer(advancedOptionsReducer, defaultReducerState)
+    const [state, dispatch] = useReducer(advancedOptionsReducer, defaultReducerState);
 
     useEffect(() => {
         console.log(state)

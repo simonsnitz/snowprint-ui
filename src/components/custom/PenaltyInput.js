@@ -1,12 +1,24 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Slider, Typography } from "@mui/material";
 import { defaultPenaltyState } from "constants/defaultConstants";
-import { useState } from "react";   
+import { useState, useEffect } from "react";   
 
-export default function PenaltyInput() {
+export default function PenaltyInput({callBack, field}) {
 
     const [penaltyState, setPenaltyState] = useState(defaultPenaltyState)
     const [isPenaltyOpen, setIsPenaltyOpen] = useState(false);
+
+    useEffect(() => {
+        callBack(
+            {
+                type: 'updateValue',
+                field: {
+                    name: field,
+                    value: penaltyState
+                }
+            }
+        )
+    }, [penaltyState])
 
     return (    
         <List>

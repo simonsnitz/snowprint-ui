@@ -1,22 +1,39 @@
 import NumberButton from "components/custom/NumberButton";
 import { Box, Checkbox, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import PenaltyInput from "components/custom/PenaltyInput";
+import { useState, useEffect } from "react";
 
 export default function Search({dispatch}) {
+
+    const [conservation, setConservation] = useState('align');
+
+    useEffect(() => {
+        dispatch({
+            type: 'updateValue',
+            field: {
+                name: 'genomeChoice',
+                value: conservation
+            }
+        })
+    }, [conservation])
+
+    const handleUpdate = (event) => {
+        setConservation(event.target.value);
+    }
+
     return (
         <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Typography sx={{width: '100%'}}>{'Search Method'}</Typography>
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
                 <FormControl margin="normal">
-                    <FormLabel id="demo-radio-buttons-group-label">{'How should conservation be analyzed?'}</FormLabel>
+                    <FormLabel>{'How should conservation be analyzed?'}</FormLabel>
                     <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
+                        value={conservation}
+                        onChange={handleUpdate}
                     >
-                        <FormControlLabel value="Align" control={<Radio size="small"/>} label="Align an input sequence" />
-                        <FormControlLabel value="Scan" control={<Radio size="small"/>} label="Scan entire promoter region" />
-                        <FormControlLabel value="Look" control={<Radio size="small"/>} label="Look for inverted repeats" />
+                        <FormControlLabel value="align" control={<Radio size="small"/>} label="Align an input sequence" />
+                        <FormControlLabel value="scan" control={<Radio size="small"/>} label="Scan entire promoter region" />
+                        <FormControlLabel value="look" control={<Radio size="small"/>} label="Look for inverted repeats" />
                     </RadioGroup>
                 </FormControl>
             </Box>
