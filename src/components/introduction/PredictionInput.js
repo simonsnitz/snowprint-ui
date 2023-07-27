@@ -15,7 +15,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
             alignItems: 'center',
         }}>
             <Box sx={{
-                width: '30%',
+                width: '25%',
                 display: isSmallScreen ? 'none': 'flex',
                 height: '100%',
                 overflowY: 'auto',
@@ -41,7 +41,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
             </Box>
             <Box sx={{
                 width: '80%',
-                padding: '5%',
+                paddingX: '15%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
