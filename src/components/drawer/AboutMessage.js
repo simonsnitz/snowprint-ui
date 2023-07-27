@@ -3,7 +3,7 @@ import { Typography, Box, IconButton, useTheme, useMediaQuery } from "@mui/mater
 
 export default function AboutMessage({setOpenMobileDrawer}) {
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
 
     return (
         <Box sx={{maxWidth: '100%'}}>

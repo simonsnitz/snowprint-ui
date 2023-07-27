@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 function App() {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
 
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
 

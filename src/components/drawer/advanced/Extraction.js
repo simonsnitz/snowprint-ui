@@ -6,7 +6,6 @@ export default function Extraction() {
         <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Typography sx={{width: '100%'}}>{'Promoter Extraction'}</Typography>
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-                {/* TODO - previous label included "promoter" but doesn't fit on responsive */}
                 <NumberButton label="Min length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
                 <NumberButton label="Max length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
                 <FormControl>

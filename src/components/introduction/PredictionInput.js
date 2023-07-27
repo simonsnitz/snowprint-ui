@@ -5,7 +5,7 @@ import { FirstPage } from "@mui/icons-material";
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
     return (
         <Box id="prediction-container" sx={{
             height: '100%',
