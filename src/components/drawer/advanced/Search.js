@@ -1,5 +1,6 @@
 import NumberButton from "components/custom/NumberButton";
 import { Box, Checkbox, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import PenaltyInput from "components/custom/PenaltyInput";
 
 export default function Search() {
     return (
@@ -18,6 +19,13 @@ export default function Search() {
                         <FormControlLabel value="Look" control={<Radio size="small"/>} label="Look for inverted repeats" />
                     </RadioGroup>
                 </FormControl>
+            </Box>
+            <PenaltyInput />
+            <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
+                <NumberButton label="Match score" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
+                <NumberButton label="Mismatch score" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
+                <NumberButton label="Min operator length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
+                <NumberButton label="Max operator length" sx={{width: '50%', paddingX: '4px', marginY: '12px'}} />
             </Box>
         </Box>
     )

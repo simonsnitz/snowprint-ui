@@ -1,10 +1,11 @@
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, IconButton, Button, Drawer, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import InputRadio from "./InputRadio";
 import SidePanel from "../drawer";
+import { FirstPage } from "@mui/icons-material";
 
-export default function PredictionInput() {
+export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
     return (
         <Box id="prediction-container" sx={{
             height: '100%',
@@ -14,11 +15,12 @@ export default function PredictionInput() {
             alignItems: 'center',
         }}>
             <Box sx={{
-                width: '30%',
+                width: '25%',
                 display: isSmallScreen ? 'none': 'flex',
                 height: '100%',
                 overflowY: 'auto',
                 // Create a Mac-OS like scrollbar
+                // TODO - this stopped working
                 '&::-webkit-scrollbar': {
                     backgroundColor: '#fff',
                     width: '16px'
@@ -39,7 +41,7 @@ export default function PredictionInput() {
             </Box>
             <Box sx={{
                 width: '80%',
-                padding: '5%',
+                paddingX: '15%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -55,6 +57,9 @@ export default function PredictionInput() {
                     Submit
                 </Button>
             </Box>
+            <Drawer anchor="left" open={openMobileDrawer} onClose={() => setOpenMobileDrawer(!openMobileDrawer)}>
+                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer}/>
+            </Drawer>
         </Box>
     )
 }
