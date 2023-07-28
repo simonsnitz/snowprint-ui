@@ -6,7 +6,7 @@ import DataTables from "components/dataDisplay/dataTables";
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
     return (
         <Box id="prediction-container" sx={{
             minHeight: isSmallScreen ? 'calc(100% - 51px)' : '100%',
@@ -15,7 +15,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
             display: 'flex',
         }}>
             <Box sx={{
-                width: '30%',
+                width: '25%',
                 display: isSmallScreen ? 'none': 'flex',
                 height: '100%',
                 overflowY: 'auto',
