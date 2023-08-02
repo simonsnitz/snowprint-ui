@@ -1,7 +1,24 @@
+import { useState } from "react";
 import NumberButton from "components/custom/NumberButton";
 import { Box, Checkbox, Typography } from "@mui/material";
 
 export default function Blast({dispatch}) {
+
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleChecked = () => {
+        setIsChecked(!isChecked);
+        dispatch(
+            {
+                type: 'updateValue',
+                field: {
+                    name: 'filter',
+                    value: !isChecked
+                }
+            }
+        )
+    }
+
     return (
         <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Typography sx={{width: '100%'}}>{'BLAST'}</Typography>
@@ -11,7 +28,10 @@ export default function Blast({dispatch}) {
                 <NumberButton label="Max homologs" callBack={dispatch} field={'homologs'} min={10} max={100} starter={30}/>
                 <Box sx={{display: 'flex', flexDirection: 'column', width: '50%', alignItems: 'center', justifyContent: 'center'}}>
                     <Typography sx={{fontSize: '14px'}}>Filter redundant?</Typography>
-                    <Checkbox />
+                    <Checkbox 
+                        checked={isChecked}
+                        onChange={handleChecked}
+                    />
                 </Box>
             </Box>
         </Box>
