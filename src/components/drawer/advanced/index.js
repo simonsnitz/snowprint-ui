@@ -6,7 +6,7 @@ import Alignment from "./Alignment"
 import { useEffect, useReducer } from "react"
 import { defaultReducerState } from "constants/defaultConstants"
 
-export default function AdvancedOptions() {
+export default function AdvancedOptions({apiState, apiDispatch}) {
     
     const advancedOptionsReducer = (state, action) => {
         switch(action.type){
@@ -17,13 +17,51 @@ export default function AdvancedOptions() {
                 }
             }
         }
-    }
+}
 
     const [state, dispatch] = useReducer(advancedOptionsReducer, defaultReducerState);
 
+    const getProteinInfo = async () => {
+        let result = await fetch('https://95crbgduv4.execute-api.us-east-2.amazonaws.com/startBlast', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    ...state,
+                    acc: apiState.acc,
+                    method: apiState.inputMethod
+                }
+            )
+        });
+
+        if (result.status === 200) {
+            let data = await result.json();
+            apiDispatch({
+                type: 'updateValue',
+                field: 'apiResult',
+                value: data
+            });
+            apiDispatch({
+                type: 'updateValue',
+                field: 'sendRequest',
+                value: false
+            })
+        } else if (result.status === 202) {
+            apiDispatch({
+                type: 'updateValue',
+                field: 'apiUUID',
+                value: 'test123'
+            })
+        }
+    }
+
     useEffect(() => {
-        console.log(state)
-    }, [state])
+        if (apiState.sendRequest) {
+            getProteinInfo();
+        }
+    }, [apiState.sendRequest])
 
     return (
         <Box sx={{

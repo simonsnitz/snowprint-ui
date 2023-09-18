@@ -1,6 +1,6 @@
 import { FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Box } from "@mui/material";
 
-export default function InputRadio() {
+export default function InputRadio({apiDispatch}) {
     return (
         <Box sx={{
             display: 'flex',
@@ -11,10 +11,15 @@ export default function InputRadio() {
         <FormLabel>{'Choose an input format'}</FormLabel>
         <RadioGroup
             defaultValue="RefSeq"
+            onChange={(e) => apiDispatch({
+                type: 'updateValue',
+                field: 'inputMethod',
+                value: e.target.value
+            })}
         >
             <FormControlLabel value="RefSeq" control={<Radio />} label="RefSeq" />
             <FormControlLabel value="Uniprot" control={<Radio />} label="Uniprot" />
-            <FormControlLabel value="protein" control={<Radio />} label="Protein Sequence" />
+            <FormControlLabel value="Protein sequence" control={<Radio />} label="Protein Sequence" />
         </RadioGroup>
     </FormControl>
         </Box>

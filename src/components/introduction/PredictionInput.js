@@ -1,12 +1,45 @@
-import { Box, IconButton, Button, Drawer, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import React, { useEffect, useReducer } from 'react'
+
+import { Box, Button, Drawer, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import InputRadio from "./InputRadio";
 import SidePanel from "../drawer";
-import { FirstPage } from "@mui/icons-material";
-import DataTables from "components/dataDisplay/dataTables";
+import DataDisplay from "components/dataDisplay";
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
+
+    const apiReducer = (state, action) => {
+        switch(action.type) {
+            case 'updateValue': {
+                return {
+                    ...state,
+                    [action.field]: action.value 
+                }
+            }
+        }
+    }
+
+    const [apiState, apiDispatch] = useReducer(apiReducer, {
+        sendRequest: false,
+        acc: 'WP_013083972.1',
+        inputMethod: 'RefSeq',
+        apiResult: null,
+        apiUUID: null,
+    })
+
+    useEffect(() =>{
+        console.log(apiState)
+    }, [apiState])
+
+    const handleSubmit = () => {
+        apiDispatch({
+            type: 'updateValue',
+            field: 'sendRequest',
+            value: true
+        })
+    }
+
     return (
         <Box id="prediction-container" sx={{
             minHeight: isSmallScreen ? 'calc(100% - 51px)' : '100%',
@@ -37,7 +70,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     display: 'none'
                 }
             }}>
-                <SidePanel />
+                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer} apiState={apiState} apiDispatch={apiDispatch}/>
             </Box>
             <Box sx={{
                 width: isSmallScreen ? '100%' : '80%',
@@ -54,17 +87,21 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                 }}>
                     <img src={'./Snowprint_Logo.png'} style={{maxWidth: "100%"}}/>
                     <Typography variant="h4" align="center">{`Predict a regulator's DNA binding sequence`}</Typography>
-                    <InputRadio />
+                    <InputRadio apiDispatch={apiDispatch} />
                     {/* TODO - what to put for the label? */}
-                    <TextField label="Please enter your data here" sx={{width: '100%', marginTop: '24px'}} variant="filled"/>
-                    <Button variant="outlined" sx={{marginTop: '20px'}}>
+                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={apiState.acc} onChange={(e) => apiDispatch({
+                        type: 'updateValue',
+                        field: 'acc',
+                        value: e.target.value
+                    })}/>
+                    <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit}>
                         Submit
                     </Button>
                 </Box>
-                <DataTables />
+                <DataDisplay apiState={apiState}/>
             </Box>
             <Drawer anchor="left" open={openMobileDrawer} onClose={() => setOpenMobileDrawer(!openMobileDrawer)}>
-                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer}/>
+                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer} apiState={apiState} apiDispatch={apiDispatch} />
             </Drawer>
         </Box>
     )

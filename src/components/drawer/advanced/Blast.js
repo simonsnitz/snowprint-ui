@@ -4,7 +4,7 @@ import { Box, Checkbox, Typography } from "@mui/material";
 
 export default function Blast({dispatch}) {
 
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(true);
 
     const handleChecked = () => {
         setIsChecked(!isChecked);

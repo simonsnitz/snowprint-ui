@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 
 export default function Search({dispatch}) {
 
-    const [conservation, setConservation] = useState('align');
+    const [conservation, setConservation] = useState('Look for inverted repeats');
 
     useEffect(() => {
         dispatch({
             type: 'updateValue',
             field: {
-                name: 'genomeChoice',
+                name: 'conservation',
                 value: conservation
             }
         })
@@ -31,9 +31,9 @@ export default function Search({dispatch}) {
                         value={conservation}
                         onChange={handleUpdate}
                     >
-                        <FormControlLabel value="align" control={<Radio size="small"/>} label="Align an input sequence" />
-                        <FormControlLabel value="scan" control={<Radio size="small"/>} label="Scan entire promoter region" />
-                        <FormControlLabel value="look" control={<Radio size="small"/>} label="Look for inverted repeats" />
+                        <FormControlLabel value="Align an input sequence" control={<Radio size="small"/>} label="Align an input sequence" />
+                        <FormControlLabel value="Scan entire promoter region" control={<Radio size="small"/>} label="Scan entire promoter region" />
+                        <FormControlLabel value="Look for inverted repeats" control={<Radio size="small"/>} label="Look for inverted repeats" />
                     </RadioGroup>
                 </FormControl>
             </Box>
