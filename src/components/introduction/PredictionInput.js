@@ -1,9 +1,10 @@
 import React, { useEffect, useReducer } from 'react'
 
-import { Box, Button, Drawer, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Drawer, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import InputRadio from "./InputRadio";
 import SidePanel from "../drawer";
 import DataDisplay from "components/dataDisplay";
+import LoadingComponent from './LoadingComponent';
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
@@ -26,11 +27,8 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
         inputMethod: 'RefSeq',
         apiResult: null,
         apiUUID: null,
+        isLoading: false
     })
-
-    useEffect(() =>{
-        console.log(apiState)
-    }, [apiState])
 
     const handleSubmit = () => {
         apiDispatch({
@@ -85,7 +83,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                 objectFit: 'contain',
                 flexDirection: 'column'
                 }}>
-                    <img src={'./Snowprint_Logo.png'} style={{maxWidth: "100%"}}/>
+                    <img src={'./Snowprint_Logo.png'} style={{maxWidth: "75%"}}/>
                     <Typography variant="h4" align="center">{`Predict a regulator's DNA binding sequence`}</Typography>
                     <InputRadio apiDispatch={apiDispatch} />
                     {/* TODO - what to put for the label? */}
@@ -98,7 +96,12 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                         Submit
                     </Button>
                 </Box>
-                <DataDisplay apiState={apiState}/>
+                {
+                    apiState.isLoading && <LoadingComponent apiState={apiState}/>
+                }
+                {
+                    !apiState.isLoading && apiState.apiResult && <DataDisplay apiState={apiState}/>
+                }
             </Box>
             <Drawer anchor="left" open={openMobileDrawer} onClose={() => setOpenMobileDrawer(!openMobileDrawer)}>
                 <SidePanel setOpenMobileDrawer={setOpenMobileDrawer} apiState={apiState} apiDispatch={apiDispatch} />

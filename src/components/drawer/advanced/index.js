@@ -5,8 +5,11 @@ import Search from "./Search"
 import Alignment from "./Alignment"
 import { useEffect, useReducer } from "react"
 import { defaultReducerState } from "constants/defaultConstants"
+import { useSnackbar } from "notistack"
 
 export default function AdvancedOptions({apiState, apiDispatch}) {
+
+    const { enqueueSnackbar } = useSnackbar();
     
     const advancedOptionsReducer = (state, action) => {
         switch(action.type){
@@ -22,7 +25,12 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
     const [state, dispatch] = useReducer(advancedOptionsReducer, defaultReducerState);
 
     const getProteinInfo = async () => {
-        let result = await fetch('https://95crbgduv4.execute-api.us-east-2.amazonaws.com/startBlast', {
+        apiDispatch({
+            type: 'updateValue',
+            field: 'isLoading',
+            value: true
+        })
+        await fetch('https://95crbgduv4.execute-api.us-east-2.amazonaws.com/startBlast', {
             method: 'POST',
             headers: {
                 Accept: 'application/json'
@@ -34,27 +42,55 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                     method: apiState.inputMethod
                 }
             )
-        });
-
-        if (result.status === 200) {
-            let data = await result.json();
-            apiDispatch({
-                type: 'updateValue',
-                field: 'apiResult',
-                value: data
-            });
-            apiDispatch({
-                type: 'updateValue',
-                field: 'sendRequest',
-                value: false
-            })
-        } else if (result.status === 202) {
-            apiDispatch({
-                type: 'updateValue',
-                field: 'apiUUID',
-                value: 'test123'
-            })
-        }
+        })
+        .then(async resp => {
+            if (resp.status === 200) {
+                return resp.json()
+            } else if (resp.status === 202) {
+                let data = await resp.json();
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'apiUUID',
+                    value: data.id
+                })
+                // Start polling API for new data
+                setTimeout(getProteinInfo, 5000);
+                
+            } else {
+                // This is reached in some error scenario
+                // TODO - clear loading
+                enqueueSnackbar(`Sorry, we've encountered some type of error. Please try again.`, {
+                    variant: 'error'
+                })
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'sendRequest',
+                    value: false
+                })
+            }
+        })
+        .then(data => {
+            if (data) {
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'apiResult',
+                    value: data
+                });
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'sendRequest',
+                    value: false
+                });
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'isLoading',
+                    value: false
+                });
+            }
+        })
+        .catch(err => {
+            console.log(`Api fetch error: ${err}`);
+        })
     }
 
     useEffect(() => {
