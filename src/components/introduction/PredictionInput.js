@@ -27,7 +27,9 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
         inputMethod: 'RefSeq',
         apiResult: null,
         apiUUID: null,
-        isLoading: false
+        isLoading: false,
+        statusCode: null,
+        isError: false
     })
 
     const handleSubmit = () => {
@@ -86,13 +88,12 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     <img src={'./Snowprint_Logo.png'} style={{maxWidth: "75%"}}/>
                     <Typography variant="h4" align="center">{`Predict a regulator's DNA binding sequence`}</Typography>
                     <InputRadio apiDispatch={apiDispatch} />
-                    {/* TODO - what to put for the label? */}
                     <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={apiState.acc} onChange={(e) => apiDispatch({
                         type: 'updateValue',
                         field: 'acc',
                         value: e.target.value
                     })}/>
-                    <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit}>
+                    <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={apiState.isError}>
                         Submit
                     </Button>
                 </Box>

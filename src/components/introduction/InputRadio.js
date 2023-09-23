@@ -20,6 +20,7 @@ export default function InputRadio({apiDispatch}) {
             <FormControlLabel value="RefSeq" control={<Radio />} label="RefSeq" />
             <FormControlLabel value="Uniprot" control={<Radio />} label="Uniprot" />
             <FormControlLabel value="Protein sequence" control={<Radio />} label="Protein Sequence" />
+            <FormControlLabel value="Snowprint ID" control={<Radio />} label="Snowprint ID" />
         </RadioGroup>
     </FormControl>
         </Box>

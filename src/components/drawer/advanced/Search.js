@@ -2,6 +2,7 @@ import NumberButton from "components/custom/NumberButton";
 import { Box, Checkbox, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import PenaltyInput from "components/custom/PenaltyInput";
 import { useState, useEffect } from "react";
+import AlignSequence from "components/custom/AlignSequence";
 
 export default function Search({dispatch}) {
 
@@ -21,6 +22,17 @@ export default function Search({dispatch}) {
         setConservation(event.target.value);
     }
 
+    const getView = () => {
+        switch(conservation){
+            case 'Look for inverted repeats':
+                return <PenaltyInput callBack={dispatch} field={'penalty'} />
+            case 'Scan entire promoter region':
+                return <Box />
+            case 'Align an input sequence':
+                return <AlignSequence callBack={dispatch} field={'seqToAlign'} />
+        }
+    }
+
     return (
         <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Typography sx={{width: '100%'}}>{'Search Method'}</Typography>
@@ -37,7 +49,7 @@ export default function Search({dispatch}) {
                     </RadioGroup>
                 </FormControl>
             </Box>
-            <PenaltyInput callBack={dispatch} field={'penalty'} />
+            {getView()}
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
                 <NumberButton label="Match score" callBack={dispatch} field={'match'} min={0} max={10} starter={2} decimalSupport/>
                 <NumberButton label="Mismatch score" callBack={dispatch} field={'misMatch'} min={-10} max={0} starter={-2} decimalSupport/>

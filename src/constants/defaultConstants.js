@@ -40,5 +40,6 @@ export const defaultReducerState = {
     gapOpen: -100,
     gapExtend: 0,
     alignMatch: 2,
-    alignMismatch: -0.5
+    alignMismatch: -0.5,
+    seqToAlign: null
 }

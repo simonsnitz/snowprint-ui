@@ -10,6 +10,8 @@ import { useSnackbar } from "notistack"
 export default function AdvancedOptions({apiState, apiDispatch}) {
 
     const { enqueueSnackbar } = useSnackbar();
+
+    console.log(apiState)
     
     const advancedOptionsReducer = (state, action) => {
         switch(action.type){
@@ -18,6 +20,16 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                     ...state,
                     [action.field.name]: action.field.value
                 }
+            }
+            case 'isError': {
+                console.log('isError')
+                // Call parent reducer with error
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'isError',
+                    value: action.value
+                })
+                return state;
             }
         }
 }
@@ -52,6 +64,11 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                     type: 'updateValue',
                     field: 'apiUUID',
                     value: data.id
+                })
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'statusCode',
+                    value: 202
                 })
                 // Start polling API for new data
                 setTimeout(getProteinInfo, 5000);

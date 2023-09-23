@@ -29,7 +29,7 @@ export default function PenaltyInput({callBack, field}) {
         <Collapse in={isPenaltyOpen} timeout="auto" unmountOnExit>
             {
                 Object.entries(defaultPenaltyState).map(([key, value]) => (
-                    <Box sx={{display: 'flex'}}>
+                    <Box sx={{display: 'flex'}} key={`${key}-${value}`}>
                         <Slider 
                             defaultValue={value}
                             min={-20}

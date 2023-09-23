@@ -9,6 +9,8 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
     const [isError, setIsError] = useState(false);
 
     useEffect(() => {
+        checkForErrors() 
+        
         // If we want decimals but the input is in the format of 1. 
         // In this case, the last update will be the one to stick
         // Until the users supplies another digit such as 1.1
@@ -62,7 +64,12 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
 
     // onBlur check for errors to feed to input
     const checkForErrors = () => {
-        setIsError(validateCurrent(Number(value)));
+        let errorResult = validateCurrent(Number(value));
+        setIsError(errorResult);
+        callBack({
+            type: 'isError',
+            value: errorResult
+        })
     }
 
     /**
@@ -100,7 +107,6 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
                     setValue(e.target.value)
                 }
             }}
-            onBlur={() => checkForErrors()}
             error={isError}
             helperText={isError ? `Please enter a ${decimalSupport ? '' : 'whole'} number between ${min} and ${max}` : null}
         />
