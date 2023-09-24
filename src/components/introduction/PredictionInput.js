@@ -53,20 +53,19 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                 height: '100%',
                 overflowY: 'auto',
                 // Create a Mac-OS like scrollbar
-                // TODO - this stopped working
-                '&::-webkit-scrollbar': {
+                '& ::-webkit-scrollbar': {
                     backgroundColor: '#fff',
                     width: '16px'
                 },
-                '&::-webkit-scrollbar-track': {
+                '& ::-webkit-scrollbar-track': {
                     backgroundColor: '#fff'
                 },
-                '&::-webkit-scrollbar-thumb': {
+                '& ::-webkit-scrollbar-thumb': {
                     backgroundColor: '#babac0',
                     borderRadius: '16px',
                     border: '4px solid #fff'
                 },
-                '&::-webkit-scrollbar-button': {
+                '& ::-webkit-scrollbar-button': {
                     display: 'none'
                 }
             }}>

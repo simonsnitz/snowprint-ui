@@ -11,7 +11,7 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    console.log(apiState)
+
     
     const advancedOptionsReducer = (state, action) => {
         switch(action.type){
@@ -22,7 +22,6 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                 }
             }
             case 'isError': {
-                console.log('isError')
                 // Call parent reducer with error
                 apiDispatch({
                     type: 'updateValue',
@@ -102,6 +101,11 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                     type: 'updateValue',
                     field: 'isLoading',
                     value: false
+                });
+                apiDispatch({
+                    type: 'updateValue',
+                    field: 'apiUUID',
+                    value: null
                 });
             }
         })

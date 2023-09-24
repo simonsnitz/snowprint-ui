@@ -3,12 +3,10 @@ import { Box, CssBaseline, IconButton, useTheme, useMediaQuery } from '@mui/mate
 import './App.css';
 import PredictionInput from './components/introduction/PredictionInput';
 import MenuIcon from '@mui/icons-material/Menu';
-import DataDisplay from 'components/dataDisplay';
-import DataTables from 'components/dataDisplay/dataTables';
 
 function App() {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
 
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
 
@@ -22,7 +20,23 @@ function App() {
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column',
-      overflowY: 'auto'
+      overflowY: 'auto',
+            // Create a Mac-OS like scrollbar
+      '& ::-webkit-scrollbar': {
+        backgroundColor: '#fff',
+        width: '16px'
+      },
+      '& ::-webkit-scrollbar-track': {
+          backgroundColor: '#fff'
+      },
+      '& ::-webkit-scrollbar-thumb': {
+          backgroundColor: '#babac0',
+          borderRadius: '16px',
+          border: '4px solid #fff'
+      },
+      '& ::-webkit-scrollbar-button': {
+          display: 'none'
+      }
     }}>
       <Box sx={{
         display: isSmallScreen ? 'flex' : 'none',
