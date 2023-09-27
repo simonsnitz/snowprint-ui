@@ -1,13 +1,14 @@
 // Used for RefSeq ID
-export const refseqValidation = new RegExp(
-    /^[a-zA-Z0-9_]+([-.][a-zA-Z0-9_]+)*$/
-  );
+export const refseqValidation = (val) => {
+    return /^[a-zA-Z0-9_]+([-.][a-zA-Z0-9_]+)*$/.test(val)
+  }
 
-// Used for Uniprot ID
-export const uniprotValidation = new RegExp(/^[A-Za-z0-9_]+$/);
+  // Used for Uniprot ID
+export const uniprotValidation = (val) => {
+  return /^[A-Za-z0-9_]+$/.test(val);
+}
 
 // Use for Protein Sequence
-export const proteinValidation = new RegExp(
-    /^[ACDEFGHIKLMNPQRSTVWYacdefghiklmnpqrstvwx]*$/
-    );
-
+export const proteinValidation = (val) => {
+  return /^[ACDEFGHIKLMNPQRSTVWYacdefghiklmnpqrstvwx]*$/.test(val)
+}

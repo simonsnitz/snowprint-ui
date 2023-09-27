@@ -5,6 +5,7 @@ import InputRadio from "./InputRadio";
 import SidePanel from "../drawer";
 import DataDisplay from "components/dataDisplay";
 import LoadingComponent from './LoadingComponent';
+import { proteinValidation, refseqValidation, uniprotValidation } from 'lib/Validations';
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
@@ -18,6 +19,13 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     [action.field]: action.value 
                 }
             }
+            case 'updateInputError': {
+                return {
+                    ...state,
+                    isError: action.inputError,
+                    inputError: action.inputError
+                }
+            }
         }
     }
 
@@ -29,8 +37,13 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
         apiUUID: null,
         isLoading: false,
         statusCode: null,
-        isError: false
+        isError: false,
+        inputError: false
     })
+
+    useEffect(() => {
+        console.log(apiState);
+    }, [apiState])
 
     const handleSubmit = () => {
         apiDispatch({
@@ -39,6 +52,26 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
             value: true
         })
     }
+
+    const validateInput = () => {
+        let isError = false;
+        if (apiState.inputMethod === 'RefSeq' && !refseqValidation(apiState.acc)) {
+            isError = true;
+        } else if (apiState.inputMethod === 'Uniprot' && !uniprotValidation(apiState.acc)) {
+            isError = true;
+        } else if (apiState.inputMethod === 'Protein Sequence' && !proteinValidation(apiState.acc)) {
+            isError = true;
+        }
+
+        apiDispatch({
+            type: 'updateInputError',
+            inputError: isError
+        })
+    }
+
+    useEffect(() => {
+        validateInput();
+    }, [apiState.acc, apiState.inputMethod])
 
     return (
         <Box id="prediction-container" sx={{
@@ -87,11 +120,16 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     <img src={'./Snowprint_Logo.png'} style={{maxWidth: "75%"}}/>
                     <Typography variant="h4" align="center">{`Predict a regulator's DNA binding sequence`}</Typography>
                     <InputRadio apiDispatch={apiDispatch} />
-                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={apiState.acc} onChange={(e) => apiDispatch({
+                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={apiState.acc} onChange={(e) => {
+                        apiDispatch({
                         type: 'updateValue',
                         field: 'acc',
                         value: e.target.value
-                    })}/>
+                    })
+                    }}
+                        error={apiState.inputError}
+                        helperText={apiState.inputError ? 'Please enter a valid ID' : ''}
+                    />
                     <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={apiState.isError}>
                         Submit
                     </Button>
