@@ -5,6 +5,8 @@ export default function AboutMessage({setOpenMobileDrawer}) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
 
+    //TODO - link
+
     return (
         <Box sx={{maxWidth: '100%'}}>
             <Box sx={{display: isSmallScreen ? 'flex' : 'none', width: '100%', justifyContent: 'flex-end'}}>
