@@ -19,7 +19,24 @@ function App() {
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      overflowY: 'auto',
+            // Create a Mac-OS like scrollbar
+      '& ::-webkit-scrollbar': {
+        backgroundColor: '#fff',
+        width: '16px'
+      },
+      '& ::-webkit-scrollbar-track': {
+          backgroundColor: '#fff'
+      },
+      '& ::-webkit-scrollbar-thumb': {
+          backgroundColor: '#babac0',
+          borderRadius: '16px',
+          border: '4px solid #fff'
+      },
+      '& ::-webkit-scrollbar-button': {
+          display: 'none'
+      }
     }}>
       <Box sx={{
         display: isSmallScreen ? 'flex' : 'none',
