@@ -6,10 +6,10 @@ import AlignSequence from "components/custom/AlignSequence";
 
 import { useAdvancedStore } from "../../../stores/advancedState.store";
 
-export default function Search({dispatch}) {
+export default function Search() {
 
-    const { updateStateValue } = useAdvancedStore(context => context);
-    const [conservation, setConservation] = useState('Look for inverted repeats');
+    const { state, updateStateValue } = useAdvancedStore(context => context);
+    const [conservation, setConservation] = useState(state.conservation);
 
     useEffect(() => {
         updateStateValue('conservation', conservation)
@@ -48,10 +48,10 @@ export default function Search({dispatch}) {
             </Box>
             {getView()}
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-                <NumberButton label="Match score" field={'match'} min={0} max={10} starter={2} decimalSupport/>
-                <NumberButton label="Mismatch score" field={'misMatch'} min={-10} max={0} starter={-2} decimalSupport/>
-                <NumberButton label="Min operator length" field={'minOperator'} min={3} max={10} starter={5}/>
-                <NumberButton label="Max operator length" field={'maxOperator'} min={11} max={40} starter={15}/>
+                <NumberButton label="Match score" field={'match'} min={0} max={10} starter={state.match} decimalSupport/>
+                <NumberButton label="Mismatch score" field={'misMatch'} min={-10} max={0} starter={state.misMatch} decimalSupport/>
+                <NumberButton label="Min operator length" field={'minOperator'} min={3} max={10} starter={state.minOperator}/>
+                <NumberButton label="Max operator length" field={'maxOperator'} min={11} max={40} starter={state.maxOperator}/>
             </Box>
         </Box>
     )
