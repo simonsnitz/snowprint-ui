@@ -2,17 +2,14 @@ import NumberButton from "components/custom/NumberButton";
 import { Box, Checkbox, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export default function Extraction({dispatch}) {
+import { useAdvancedStore } from "../../../stores/advancedState.store";
+
+export default function Extraction() {
     const [genomeValue, setGenomeValue] = useState('batch')
+    const { updateStateValue } = useAdvancedStore(context => context);
 
     useEffect(() => {
-        dispatch({
-            type: 'updateValue',
-            field: {
-                name: 'genomeChoice',
-                value: genomeValue
-            }
-        })
+        updateStateValue('genomeChoice', genomeValue)
     }, [genomeValue])
 
     const handleUpdate = (event) => {
@@ -24,8 +21,8 @@ export default function Extraction({dispatch}) {
             <Typography sx={{width: '100%'}}>{'Promoter Extraction'}</Typography>
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
                 {/* TODO - previous label included "promoter" but doesn't fit on responsive */}
-                <NumberButton label="Min length" callBack={dispatch} field={'minLength'} min={1} max={500} starter={80}/>
-                <NumberButton label="Max length" callBack={dispatch} field={'maxLength'} min={20} max={9000} starter={800}/>
+                <NumberButton label="Min length" field={'minLength'} min={1} max={500} starter={80}/>
+                <NumberButton label="Max length" field={'maxLength'} min={20} max={9000} starter={800}/>
                 <FormControl>
                     <FormLabel>{'How should genome coordinates be fetched?'}</FormLabel>
                     <RadioGroup

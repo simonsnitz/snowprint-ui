@@ -2,11 +2,13 @@ import { ButtonGroup, IconButton, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useEffect, useState } from "react";
+import { useAdvancedStore } from "../../stores/advancedState.store";
 
-export default function NumberButton({ label, callBack, field, sx, min, max, starter, decimalSupport = false }) {
+export default function NumberButton({ label, field, sx, min, max, starter, decimalSupport = false }) {
 
     const [value, setValue] = useState(starter);
     const [isError, setIsError] = useState(false);
+    const { updateStateValue, setGlobalError } = useAdvancedStore(context => context);
 
     useEffect(() => {
         checkForErrors() 
@@ -19,19 +21,10 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
         } else {
             let converted = Number(value);
 
-            console.log(validateCurrent(converted))
-
             // Run validation on provided range and update reducer
             if (!validateCurrent(converted)) {
-                callBack(
-                    {
-                        type: 'updateValue',
-                        field: {
-                            name: field,
-                            value: converted
-                        }
-                    }
-                )
+
+                updateStateValue(field, converted)
             }
         }
     }, [value])
@@ -68,10 +61,7 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
     const checkForErrors = () => {
         let errorResult = validateCurrent(Number(value));
         setIsError(errorResult);
-        callBack({
-            type: 'isError',
-            value: errorResult
-        })
+        setGlobalError(errorResult);
     }
 
     /**

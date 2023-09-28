@@ -1,36 +1,25 @@
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 
+import { useAdvancedStore } from "../../stores/advancedState.store";
+
 export default function AlignSequence({callBack, field}) {
+
+    const { updateStateValue, setGlobalError } = useAdvancedStore(context => context);
 
     const [seqToAlign, setSeqToAlign] = useState(null);
     const [isError, setIsError] = useState(false);
 
     useEffect(() => {
-        callBack(
-            {
-                type: 'updateValue',
-                field: {
-                    name: field,
-                    value: seqToAlign
-                }
-            }
-        )
+        updateStateValue('seqToAlign', seqToAlign)
     }, [seqToAlign])
 
     // Minimum is 10, disable search on mount
     useEffect(() => {
-        callBack({
-            type: 'isError',
-            value: true
-        });
+        setGlobalError(true)
         setIsError(true);
 
-        // Clear error on unmount
-        return () => callBack({
-            type: 'isError',
-            value: false
-        })
+        return () => setGlobalError(false)
     }, [])
 
     return(
@@ -41,18 +30,12 @@ export default function AlignSequence({callBack, field}) {
                 }
 
                 if (e.target.value.length < 10) {
-                    callBack({
-                        type: 'isError',
-                        value: true
-                    })
+                    setGlobalError(true)
                     setIsError(true)
                     } else {
                         if (isError) {
                             setIsError(false);
-                            callBack({
-                                type: 'isError',
-                                value: false
-                            })
+                            setGlobalError(false)
                         }
                     }
                     setSeqToAlign(e.target.value);
