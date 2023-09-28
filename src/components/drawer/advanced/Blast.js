@@ -8,6 +8,7 @@ export default function Blast({dispatch}) {
 
     const handleChecked = () => {
         setIsChecked(!isChecked);
+        console.log('dispatch')
         dispatch(
             {
                 type: 'updateValue',

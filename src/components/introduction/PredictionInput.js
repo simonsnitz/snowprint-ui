@@ -18,6 +18,22 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     [action.field]: action.value 
                 }
             }
+            case 'successfulApi': {
+                return {
+                    ...state,
+                    apiResult: action.data,
+                    sendRequest: false,
+                    isLoading: false,
+                    apiUUID: null
+                }
+            }
+            case 'dataWaiting': {
+                return {
+                    ...state,
+                    apiUUID: action.uuid,
+                    statusCode: 202
+                }
+            }
         }
     }
 

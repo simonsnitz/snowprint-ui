@@ -19,6 +19,8 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
         } else {
             let converted = Number(value);
 
+            console.log(validateCurrent(converted))
+
             // Run validation on provided range and update reducer
             if (!validateCurrent(converted)) {
                 callBack(
@@ -45,7 +47,7 @@ export default function NumberButton({ label, callBack, field, sx, min, max, sta
 
     // Check if the current value is in the format of 1 or 1.
     const checkWholeNumber = () => {
-        const pattern = /^\d+.$/;
+        const pattern = /^\d+\.$/;
 
         if (pattern.test(value)) {
             return false;

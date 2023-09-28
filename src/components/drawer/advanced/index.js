@@ -10,8 +10,6 @@ import { useSnackbar } from "notistack"
 export default function AdvancedOptions({apiState, apiDispatch}) {
 
     const { enqueueSnackbar } = useSnackbar();
-
-
     
     const advancedOptionsReducer = (state, action) => {
         switch(action.type){
@@ -34,6 +32,10 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
 }
 
     const [state, dispatch] = useReducer(advancedOptionsReducer, defaultReducerState);
+
+    useEffect(() =>{
+        console.log(state)
+    }, [state])
 
     const getProteinInfo = async () => {
         apiDispatch({
@@ -60,14 +62,9 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
             } else if (resp.status === 202) {
                 let data = await resp.json();
                 apiDispatch({
-                    type: 'updateValue',
-                    field: 'apiUUID',
-                    value: data.id
-                })
-                apiDispatch({
-                    type: 'updateValue',
-                    field: 'statusCode',
-                    value: 202
+                    type: 'dataWaiting',
+                    uuid: data.id,
+                    statusCode: 202
                 })
                 // Start polling API for new data
                 setTimeout(getProteinInfo, 5000);
@@ -88,25 +85,9 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
         .then(data => {
             if (data) {
                 apiDispatch({
-                    type: 'updateValue',
-                    field: 'apiResult',
-                    value: data
-                });
-                apiDispatch({
-                    type: 'updateValue',
-                    field: 'sendRequest',
-                    value: false
-                });
-                apiDispatch({
-                    type: 'updateValue',
-                    field: 'isLoading',
-                    value: false
-                });
-                apiDispatch({
-                    type: 'updateValue',
-                    field: 'apiUUID',
-                    value: null
-                });
+                    type: 'successfulApi',
+                    data: data
+                })
             }
         })
         .catch(err => {
