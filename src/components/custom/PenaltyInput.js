@@ -3,21 +3,17 @@ import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Slider
 import { defaultPenaltyState } from "constants/defaultConstants";
 import { useState, useEffect } from "react";   
 
-export default function PenaltyInput({callBack, field}) {
+import { useAdvancedStore } from "../../stores/advancedState.store";
+
+export default function PenaltyInput() {
+
+    const { updateStateValue } = useAdvancedStore(context => context);
 
     const [penaltyState, setPenaltyState] = useState(defaultPenaltyState)
     const [isPenaltyOpen, setIsPenaltyOpen] = useState(false);
 
     useEffect(() => {
-        callBack(
-            {
-                type: 'updateValue',
-                field: {
-                    name: field,
-                    value: penaltyState
-                }
-            }
-        )
+        updateStateValue('penalty', penaltyState)
     }, [penaltyState])
 
     return (    

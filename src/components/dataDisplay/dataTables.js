@@ -1,20 +1,23 @@
 import { Box, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
-export default function DataTables({apiState}) {
+import { useAdvancedStore } from "stores/advancedState.store"
+
+export default function DataTables() {
 
     const [localData, setLocalState] = useState([])
+    const { apiResult } = useAdvancedStore(context => context);
 
     useEffect(() => {
-        if (apiState.apiResult) {
+        if (apiResult) {
             combineApiResults();
         }
-    }, [apiState.apiResult])
+    }, [apiResult])
 
     function combineApiResults() {
-        let blast = apiState.apiResult.homolog
-        let genome = apiState.apiResult.coordinates
-        let predicted = apiState.apiResult.aligned_seq
+        let blast = apiResult.homolog
+        let genome = apiResult.coordinates
+        let predicted = apiResult.aligned_seq
 
         let combineMap = {}
 

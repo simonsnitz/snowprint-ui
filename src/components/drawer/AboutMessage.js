@@ -1,5 +1,5 @@
 import { FirstPage } from "@mui/icons-material";
-import { Typography, Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
+import { Typography, Box, IconButton, useTheme, useMediaQuery, Link } from "@mui/material";
 
 export default function AboutMessage({setOpenMobileDrawer}) {
     const theme = useTheme();
@@ -32,13 +32,18 @@ export default function AboutMessage({setOpenMobileDrawer}) {
                 marginBottom: '16px',
                 fontSize: '12px'
             }}>
-                {'If you have any questions or would like to report any bugs, please contact us via Email. Our code is publically available on GitHub.'}
+                {'If you have any questions or would like to report any bugs, please contact us via '}
+                <Link href="mailto: simonsnitz@gmail.com">{'Email'}</Link>
+                {'. Our code is publically available on '}
+                <Link href="https://github.com/simonsnitz/snowprint-ui">{'Github'}</Link>
+                {'.'}
             </Typography>
             <Typography sx={{
                 marginBottom: '16px',
                 fontSize: '12px'
             }}>
-                {`d'Oelsnitz S., Stofel S.K., and Ellington A.D. (2023) Snowprint: a predictive tool for genetic biosensor discovery. bioRxiv DOI:10.1101/2023.04.29.538814v1`}
+                {`d'Oelsnitz S., Stofel S.K., and Ellington A.D. (2023) Snowprint: a predictive tool for genetic biosensor discovery. bioRxiv DOI:`}
+                <Link href="https://www.biorxiv.org/content/10.1101/2023.04.29.538814v1">{'10.1101/2023.04.29.538814v1'}</Link>
             </Typography>
             <Typography sx={{
                 marginBottom: '16px',

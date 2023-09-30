@@ -1,6 +1,10 @@
 import { FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Box } from "@mui/material";
+import { useAdvancedStore } from 'stores/advancedState.store';
 
-export default function InputRadio({apiDispatch}) {
+export default function InputRadio() {
+
+    const { updateApiValue } = useAdvancedStore(context => context)
+
     return (
         <Box sx={{
             display: 'flex',
@@ -11,11 +15,7 @@ export default function InputRadio({apiDispatch}) {
         <FormLabel>{'Choose an input format'}</FormLabel>
         <RadioGroup
             defaultValue="RefSeq"
-            onChange={(e) => apiDispatch({
-                type: 'updateValue',
-                field: 'inputMethod',
-                value: e.target.value
-            })}
+            onChange={(e) => updateApiValue('inputMethod', e.target.value)}
         >
             <FormControlLabel value="RefSeq" control={<Radio />} label="RefSeq" />
             <FormControlLabel value="Uniprot" control={<Radio />} label="Uniprot" />

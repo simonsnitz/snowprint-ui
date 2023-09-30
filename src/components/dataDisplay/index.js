@@ -2,11 +2,11 @@ import { Box } from "@mui/material";
 import DataTables from "./dataTables";
 import DataResults from "./dataResults";
 
-export default function DataDisplay({apiState}) {
+export default function DataDisplay() {
     return (
         <Box>
-            <DataTables apiState={apiState}/>
-            <DataResults apiState={apiState}/>
+            <DataTables/>
+            <DataResults/>
         </Box>
     )
 }

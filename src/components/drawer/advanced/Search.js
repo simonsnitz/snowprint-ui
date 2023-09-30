@@ -4,18 +4,15 @@ import PenaltyInput from "components/custom/PenaltyInput";
 import { useState, useEffect } from "react";
 import AlignSequence from "components/custom/AlignSequence";
 
-export default function Search({dispatch}) {
+import { useAdvancedStore } from "../../../stores/advancedState.store";
 
-    const [conservation, setConservation] = useState('Look for inverted repeats');
+export default function Search() {
+
+    const { state, updateStateValue } = useAdvancedStore(context => context);
+    const [conservation, setConservation] = useState(state.conservation);
 
     useEffect(() => {
-        dispatch({
-            type: 'updateValue',
-            field: {
-                name: 'conservation',
-                value: conservation
-            }
-        })
+        updateStateValue('conservation', conservation)
     }, [conservation])
 
     const handleUpdate = (event) => {
@@ -25,11 +22,11 @@ export default function Search({dispatch}) {
     const getView = () => {
         switch(conservation){
             case 'Look for inverted repeats':
-                return <PenaltyInput callBack={dispatch} field={'penalty'} />
+                return <PenaltyInput />
             case 'Scan entire promoter region':
                 return <Box />
             case 'Align an input sequence':
-                return <AlignSequence callBack={dispatch} field={'seqToAlign'} />
+                return <AlignSequence />
         }
     }
 
@@ -51,10 +48,10 @@ export default function Search({dispatch}) {
             </Box>
             {getView()}
             <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-                <NumberButton label="Match score" callBack={dispatch} field={'match'} min={0} max={10} starter={2} decimalSupport/>
-                <NumberButton label="Mismatch score" callBack={dispatch} field={'misMatch'} min={-10} max={0} starter={-2} decimalSupport/>
-                <NumberButton label="Min operator length" callBack={dispatch} field={'minOperator'} min={3} max={10} starter={5}/>
-                <NumberButton label="Max operator length" callBack={dispatch} field={'maxOperator'} min={11} max={40} starter={15}/>
+                <NumberButton label="Match score" field={'match'} min={0} max={10} starter={state.match} decimalSupport/>
+                <NumberButton label="Mismatch score" field={'misMatch'} min={-10} max={0} starter={state.misMatch} decimalSupport/>
+                <NumberButton label="Min operator length" field={'minOperator'} min={3} max={10} starter={state.minOperator}/>
+                <NumberButton label="Max operator length" field={'maxOperator'} min={11} max={40} starter={state.maxOperator}/>
             </Box>
         </Box>
     )

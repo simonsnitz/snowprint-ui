@@ -5,40 +5,71 @@ import InputRadio from "./InputRadio";
 import SidePanel from "../drawer";
 import DataDisplay from "components/dataDisplay";
 import LoadingComponent from './LoadingComponent';
+import { useSnackbar } from "notistack"
+
+import { useAdvancedStore } from 'stores/advancedState.store';
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
+    const { enqueueSnackbar } = useSnackbar();
 
-    const apiReducer = (state, action) => {
-        switch(action.type) {
-            case 'updateValue': {
-                return {
-                    ...state,
-                    [action.field]: action.value 
-                }
-            }
-        }
-    }
-
-    const [apiState, apiDispatch] = useReducer(apiReducer, {
-        sendRequest: false,
-        acc: 'WP_013083972.1',
-        inputMethod: 'RefSeq',
-        apiResult: null,
-        apiUUID: null,
-        isLoading: false,
-        statusCode: null,
-        isError: false
-    })
+    const zustandState = useAdvancedStore();
 
     const handleSubmit = () => {
-        apiDispatch({
-            type: 'updateValue',
-            field: 'sendRequest',
-            value: true
+        zustandState.updateApiValue('sendRequest', true)
+    }
+
+    const getProteinInfo = async () => {
+        zustandState.updateApiValue('isLoading', true)
+        await fetch('https://95crbgduv4.execute-api.us-east-2.amazonaws.com/startBlast', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    ...zustandState.state,
+                    acc: zustandState.acc,
+                    method: zustandState.inputMethod
+                }
+            )
+        })
+        .then(async resp => {
+            if (resp.status === 200) {
+                return resp.json()
+            } else if (resp.status === 202) {
+                let data = await resp.json();
+                zustandState.containerWaiting(data.id)
+
+                // Start polling API for new data
+                setTimeout(getProteinInfo, 5000);
+                
+            } else {
+                // This is reached in some error scenario
+                // TODO - clear loading
+                enqueueSnackbar(`Sorry, we've encountered some type of error. Please try again.`, {
+                    variant: 'error'
+                });
+
+                zustandState.apiFailure();
+            }
+        })
+        .then(data => {
+            if (data) {
+                zustandState.apiSuccess(data);
+            }
+        })
+        .catch(err => {
+            console.log(`Api fetch error: ${err}`);
         })
     }
+
+    useEffect(() => {
+        if (zustandState.sendRequest) {
+            getProteinInfo();
+        }
+    }, [zustandState.sendRequest])
 
     return (
         <Box id="prediction-container" sx={{
@@ -69,7 +100,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     display: 'none'
                 }
             }}>
-                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer} apiState={apiState} apiDispatch={apiDispatch}/>
+                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer}/>
             </Box>
             <Box sx={{
                 width: isSmallScreen ? '100%' : '80%',
@@ -86,25 +117,21 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                 }}>
                     <img src={'./Snowprint_Logo.png'} style={{maxWidth: "75%"}}/>
                     <Typography variant="h4" align="center">{`Predict a regulator's DNA binding sequence`}</Typography>
-                    <InputRadio apiDispatch={apiDispatch} />
-                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={apiState.acc} onChange={(e) => apiDispatch({
-                        type: 'updateValue',
-                        field: 'acc',
-                        value: e.target.value
-                    })}/>
-                    <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={apiState.isError}>
+                    <InputRadio />
+                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={zustandState.acc} onChange={(e) => zustandState.updateApiValue('acc', e.target.value)}/>
+                    <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={zustandState.isError}>
                         Submit
                     </Button>
                 </Box>
                 {
-                    apiState.isLoading && <LoadingComponent apiState={apiState}/>
+                    zustandState.isLoading && <LoadingComponent />
                 }
                 {
-                    !apiState.isLoading && apiState.apiResult && <DataDisplay apiState={apiState}/>
+                    !zustandState.isLoading && zustandState.apiResult && <DataDisplay />
                 }
             </Box>
             <Drawer anchor="left" open={openMobileDrawer} onClose={() => setOpenMobileDrawer(!openMobileDrawer)}>
-                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer} apiState={apiState} apiDispatch={apiDispatch} />
+                <SidePanel setOpenMobileDrawer={setOpenMobileDrawer} />
             </Drawer>
         </Box>
     )

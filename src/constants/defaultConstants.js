@@ -22,7 +22,7 @@ export const defaultPenaltyState = {
     '20': -12
 }
 
-export const defaultReducerState = {
+export const advancedState = {
     identity: 40,
     coverage: 90,
     homologs: 30,
