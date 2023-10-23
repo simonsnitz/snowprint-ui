@@ -26,6 +26,13 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     inputError: action.inputError
                 }
             }
+            case 'apiError': {
+                return {
+                    ...state,
+                    sendRequest: false,
+                    isLoading: false
+                }
+            }
         }
     }
 

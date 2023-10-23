@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material"
+import { Box, Button, Divider, Link, Typography } from "@mui/material"
 import Blast from "./Blast"
 import Extraction from "./Extraction"
 import Search from "./Search"
@@ -9,7 +9,7 @@ import { useSnackbar } from "notistack"
 
 export default function AdvancedOptions({apiState, apiDispatch}) {
 
-    const { enqueueSnackbar } = useSnackbar();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 
     
@@ -72,6 +72,13 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                 // Start polling API for new data
                 setTimeout(getProteinInfo, 5000);
                 
+            } else if (resp.status === 400) {
+                enqueueSnackbar('Sorry, this ID failed last time we ran it. Please reach out to simonsnitz@gmail.com in order try again.', {
+                    variant: 'error'
+                })
+                apiDispatch({
+                    type: 'apiError'
+                })
             } else {
                 // This is reached in some error scenario
                 // TODO - clear loading
@@ -79,9 +86,7 @@ export default function AdvancedOptions({apiState, apiDispatch}) {
                     variant: 'error'
                 })
                 apiDispatch({
-                    type: 'updateValue',
-                    field: 'sendRequest',
-                    value: false
+                    type: 'apiError'
                 })
             }
         })
