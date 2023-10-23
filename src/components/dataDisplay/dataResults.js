@@ -8,8 +8,6 @@ export default function DataResults({apiState}) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'))
 
-    console.log(isSmallScreen)
-
     const [promoterHtml, setPromoterHtml] = useState('')
     const [motifHtml, setMotifHtml] = useState('')
 

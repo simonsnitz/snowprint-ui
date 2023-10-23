@@ -47,11 +47,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
         isError: false,
         inputError: false
     })
-
-    useEffect(() => {
-        console.log(apiState);
-    }, [apiState])
-
+    
     const handleSubmit = () => {
         apiDispatch({
             type: 'updateValue',
