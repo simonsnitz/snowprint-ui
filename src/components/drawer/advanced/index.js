@@ -10,8 +10,6 @@ import { useSnackbar } from "notistack"
 export default function AdvancedOptions({apiState, apiDispatch}) {
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-
     
     const advancedOptionsReducer = (state, action) => {
         switch(action.type){

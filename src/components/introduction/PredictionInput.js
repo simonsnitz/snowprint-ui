@@ -62,7 +62,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
             isError = true;
         } else if (apiState.inputMethod === 'Uniprot' && !uniprotValidation(apiState.acc)) {
             isError = true;
-        } else if (apiState.inputMethod === 'Protein Sequence' && !proteinValidation(apiState.acc)) {
+        } else if (apiState.inputMethod === 'Protein sequence' && !proteinValidation(apiState.acc)) {
             isError = true;
         }
 
