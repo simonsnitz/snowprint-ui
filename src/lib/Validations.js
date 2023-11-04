@@ -10,5 +10,5 @@ export const uniprotValidation = (val) => {
 
 // Use for Protein Sequence
 export const proteinValidation = (val) => {
-  return /^[ACDEFGHIKLMNPQRSTVWYacdefghiklmnpqrstvwx]*$/.test(val)
+  return /^[ACDEFGHIKLMNPQRSTVWYacdefghiklmnpqrstvwy]*$/.test(val)
 }
