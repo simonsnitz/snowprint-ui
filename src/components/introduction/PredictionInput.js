@@ -7,6 +7,8 @@ import DataDisplay from "components/dataDisplay";
 import LoadingComponent from './LoadingComponent';
 import { useSnackbar } from "notistack"
 
+import { refseqValidation, uniprotValidation, proteinValidation } from 'lib/validations';
+
 import { useAdvancedStore } from 'stores/advancedState.store';
 
 export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer }) {
@@ -45,6 +47,22 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                 // Start polling API for new data
                 setTimeout(getProteinInfo, 5000);
                 
+            } else if (resp.status === 400) {
+                                // This is reached in some error scenario
+                // TODO - clear loading
+                enqueueSnackbar(`Sorry, we've encounted some error when we last tried to run this ID. Please reach out to simonsnitz@gmail.com to resolve this.`, {
+                    variant: 'error'
+                });
+
+                zustandState.apiFailure();
+            } else if (resp.status === 405) {
+                                // This is reached in some error scenario
+                // TODO - clear loading
+                enqueueSnackbar(`Sorry, some validation is incorrect. Please check your input and try again.`, {
+                    variant: 'error'
+                });
+
+                zustandState.apiFailure();
             } else {
                 // This is reached in some error scenario
                 // TODO - clear loading
@@ -70,6 +88,23 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
             getProteinInfo();
         }
     }, [zustandState.sendRequest])
+
+    const validateInput = () => {
+        let isError = false;
+        if (zustandState.inputMethod === 'RefSeq' && !refseqValidation(zustandState.acc)) {
+            isError = true;
+        } else if (zustandState.inputMethod === 'Uniprot' && !uniprotValidation(zustandState.acc)) {
+            isError = true;
+        } else if (zustandState.inputMethod === 'Protein sequence' && !proteinValidation(zustandState.acc)) {
+            isError = true;
+        }
+
+        zustandState.setGlobalError(isError)
+    }
+
+    useEffect(() => {
+        validateInput();
+    }, [zustandState.acc, zustandState.inputMethod])
 
     return (
         <Box id="prediction-container" sx={{
@@ -118,7 +153,7 @@ export default function PredictionInput({ openMobileDrawer, setOpenMobileDrawer 
                     <img src={'./Snowprint_Logo.png'} style={{maxWidth: "75%"}}/>
                     <Typography variant="h4" align="center">{`Predict a regulator's DNA binding sequence`}</Typography>
                     <InputRadio />
-                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={zustandState.acc} onChange={(e) => zustandState.updateApiValue('acc', e.target.value)}/>
+                    <TextField sx={{width: '100%', marginTop: '24px'}} variant="filled" value={zustandState.acc} onChange={(e) => zustandState.updateApiValue('acc', e.target.value)} error={zustandState.isError} helperText={zustandState.isError && 'Invalid input for this method'}/>
                     <Button variant="outlined" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={zustandState.isError}>
                         Submit
                     </Button>
